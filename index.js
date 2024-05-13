@@ -74,7 +74,7 @@ program
         }
     });
 
-    program
+program
     .command('push')
     .description('Add all changes, commit, and push to a branch')
     .action(async () => {
@@ -99,8 +99,8 @@ program
 
             await git.commit(commitMessage);
 
-            // Get list of branches
-            const branchList = await git.branch();
+            // Get list of local branches
+            const branchList = await git.branchLocal();
             const branches = branchList.all;
 
             // Ask user to select a branch
@@ -117,6 +117,7 @@ program
             console.error(chalk.red('An error occurred during push:', error));
         }
     });
+
 
 
 
