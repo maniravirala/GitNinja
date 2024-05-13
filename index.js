@@ -74,29 +74,50 @@ program
         }
     });
 
-program
+    program
     .command('push')
     .description('Add all changes, commit, and push to a branch')
     .action(async () => {
         try {
             await git.add('.');
-            const { message } = await inquirer.prompt({
+            let commitMessage = '';
+
+            // Ask the user for a commit message
+            const { message: userMessage } = await inquirer.prompt({
                 type: 'input',
                 name: 'message',
-                message: 'Enter commit message:'
+                message: 'Enter commit message (leave empty to generate from AI):'
             });
-            await git.commit(message);
-            const { branch } = await inquirer.prompt({
-                type: 'input',
+
+            if (userMessage.trim() === '') {
+                // Use Gemini API to generate commit message
+                const diff = await git.diff(['HEAD']);
+                commitMessage = await generateCommitMessage(diff);
+            } else {
+                commitMessage = userMessage;
+            }
+
+            await git.commit(commitMessage);
+
+            // Get list of branches
+            const branchList = await git.branch();
+            const branches = branchList.all;
+
+            // Ask user to select a branch
+            const { branch: selectedBranch } = await inquirer.prompt({
+                type: 'list',
                 name: 'branch',
-                message: 'Enter branch name:'
+                message: 'Select a branch to push to:',
+                choices: branches
             });
-            await git.push('origin', branch);
+
+            await git.push('origin', selectedBranch);
             console.log(chalk.green('Push successful!'));
         } catch (error) {
             console.error(chalk.red('An error occurred during push:', error));
         }
     });
+
 
 
 program.parse(process.argv);
