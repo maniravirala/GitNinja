@@ -1,6 +1,6 @@
 {
   "name": "git-ninja",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "GitNinja is a powerful command-line tool that supercharges your Git workflow, turning you into a Git ninja. It provides a set of simplified commands and automations to make your Git experience more efficient and enjoyable. With GitNinja, you can perform common Git operations with speed and precision, mastering Git like a pro. Say goodbye to complex commands and manual processes – GitNinja streamlines your workflow, making Git easier and more accessible than ever before.",
   "main": "index.js",
   "scripts": {
@@ -26,6 +26,6 @@
   },
   "type": "module",
   "bin": {
-    "git-ninja": "./index.js"
+    "git-ninja": "index.js"
   }
 }
