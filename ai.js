@@ -12,7 +12,7 @@ if (fs.existsSync(configPath)) {
     if (match && match.length > 1) {
         apiKey = match[1];
     }
-    console.log(apiKey);
+    // console.log(apiKey);
 }
 
 const GenAi = new GoogleGenerativeAI(apiKey);
